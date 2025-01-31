@@ -9,7 +9,7 @@ void printMohamed()
 
 int main()
 {
-    string s =" Ahmed";
+    string s ="Ahmed";
     printMohamed();
     cout<<s<<endl;
 }
