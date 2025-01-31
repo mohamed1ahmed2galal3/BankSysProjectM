@@ -1,6 +1,13 @@
 #include <iostream>
 using namespace std;
+#include<string>
+
+void printMohamed()
+{
+    cout<<"Mohamed\n";
+}
+
 int main()
 {
-    cout << "Hello world!" << endl;
+    printMohamed();
 }
