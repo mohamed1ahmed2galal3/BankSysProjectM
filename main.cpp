@@ -42,3 +42,76 @@ public :
        }
    }
 };
+class Person{
+protected:
+    int id;
+    string name;
+    string password;
+public:
+    //Def Con
+    Person()
+    {
+        this->id = 0;
+    }
+    //Para Con
+    Person(int id,string name , string password)
+    {
+        this->id = 0;
+        if(Validator::isAlphaString(name) &&Validator::isValidLength(name))
+        {
+            this->name = name;
+        }
+        else{
+            cout<<"Invalid Name\n";
+        }
+        if(Validator::isValidLength(password))
+        {
+            this->password=password;
+        }
+        else{
+            cout<<"Invalid Password\n";
+        }
+    }
+    //Setter
+    void setId(int id)
+    {
+        this->id = id;
+    }
+    void setName(string name)
+    {
+        if(Validator::isAlphaString(name) &&Validator::isValidLength(name))
+        {
+            this->name = name;
+        }
+        else{
+            cout<<"Invalid Name\n";
+        }
+    }
+    void setPassword(string password)
+    {
+        if(Validator::isValidLength(password))
+        {
+            this->password=password;
+        }
+        else{
+            cout<<"Invalid Password\n";
+        }
+    }
+    //Getter
+    int getId()
+    {
+        return this->id;
+    }
+    string getName()
+    {
+        return this->name;
+    }
+    string getPassword()
+    {
+        return this->password;
+    }
+    //Methods
+    virtual void Display() = 0; //Pure Virtual Method To Force Child Class To Override On Display Method
+};
+
+
