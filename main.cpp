@@ -169,6 +169,53 @@ public:
         cout<<"\n================================\n";
     }
 };
+class Employee : public Person{
+protected:
+    double salary;
+public:
+    //Def Con
+    Employee()
+    {
+        this->salary =0.0;
+    }
+    //Para Con
+    Employee(int id, string name, string password, double salary) : Person(id, name, password)
+    {
+        if(Validator::isValidSalay(salary))
+        {
+            this->salary = salary;
+        }
+        else{
+            cout<<"Invalid Salary! Minimum is 5000.\n";
+        }
+    }
+    //Setters
+    void setSalary(double salary)
+    {
+        if(Validator::isValidSalay(salary))
+        {
+            this->salary = salary;
+        }
+        else{
+            cout<<"Invalid Salary! Minimum is 5000.\n";
+        }
+    }
+    //Getters
+    double getSalary()
+    {
+        return this->salary;
+    }
+    //Methods
+    void Display()
+    {
+        cout << "=====Employee=====  " << endl;
+        cout << "ID         = " << id << endl;
+        cout << "Name       = " << name << endl;
+        cout << "Password   = " << password << endl;
+        cout << "Salary     = " << salary << endl;
+        cout<<"\n================================\n";
+    }
+};
 
 int main() {
     Client c1(1, "Mohamed", "Mohamed123", 20000);
@@ -184,6 +231,8 @@ int main() {
     c1.Display();
     c2.Display();
 
+    Employee e1(1,"Mahmoud","Mahmoud135",6000);
+    e1.Display();
     return 0;
 }
 
