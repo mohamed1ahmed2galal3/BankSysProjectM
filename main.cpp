@@ -174,7 +174,7 @@ protected:
     double salary;
 public:
     //Def Con
-    Employee()
+    Employee() : Person()
     {
         this->salary =0.0;
     }
@@ -216,6 +216,25 @@ public:
         cout<<"\n================================\n";
     }
 };
+class Admin : public Employee{
+
+public:
+    //Def Con
+    Admin(){}
+    //Para Con
+    Admin(int id, string name, string password, double salary) : Employee(id,name,password,salary){}
+    void Display()
+    {
+        cout << "=====Admin=====  " << endl;
+        cout << "ID         = " << id << endl;
+        cout << "Name       = " << name << endl;
+        cout << "Password   = " << password << endl;
+        cout << "Salary     = " << salary << endl;
+        cout<<"\n================================\n";
+    }
+
+};
+
 
 int main() {
     Client c1(1, "Mohamed", "Mohamed123", 20000);
@@ -233,6 +252,9 @@ int main() {
 
     Employee e1(1,"Mahmoud","Mahmoud135",6000);
     e1.Display();
+
+    Admin a1(1,"Mohamed","Mohamed012",10000);
+    a1.Display();
     return 0;
 }
 
