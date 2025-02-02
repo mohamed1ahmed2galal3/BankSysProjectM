@@ -1,117 +1,96 @@
-#include<iostream>
+#include <iostream>
 #include <cctype>
-#include<string>
+#include <string>
 
-using namespace std ;
+using namespace std;
 
-class Validator
-{
-public :
-    static bool isAlphaString(string & str)
-    {
-        for(auto c : str)
-        {
-            if(!isalpha(static_cast<unsigned char>(c)))
-            {
+class Validator {
+public:
+    static bool isAlphaString(const string& str) {
+        for (char c : str) {
+            if (!isalpha(static_cast<unsigned char>(c))) {
                 return false;
             }
         }
         return true;
     }
-   static bool isValidLength(string& str) {
-    return str.length() >= 5 && str.length() <= 20;
-   }
-   static bool isValidbalance(double& balance)
-   {
-       if(balance >=1500)
-        {
-            return true ;
-        }
-        else{
-            return false;
-        }
-   }
-   static bool isValidSalay(double& salary)
-   {
-       if(salary >= 5000)
-       {
-           return true;
-       }
-       else{
-           return false;
-       }
-   }
+
+    static bool isValidLength(const string& str) {
+        return str.length() >= 5 && str.length() <= 20;
+    }
+
+    static bool isValidbalance(double balance) {
+        return balance >= 1500;
+    }
+
+    static bool isValidSalay(double salary) {
+        return salary >= 5000;
+    }
 };
-class Person{
+
+class Person {
 protected:
     int id;
     string name;
     string password;
+
 public:
-    //Def Con
-    Person()
-    {
-        this->id = 0;
+    // Default Constructor
+    Person(){
+    this->id = 0;
     }
-    //Para Con
-    Person(int id,string name , string password)
-    {
-        this->id = 0;
-        if(Validator::isAlphaString(name) &&Validator::isValidLength(name))
-        {
+
+    // Parameterized Constructor
+    Person(int id, string name, string password) {
+        this->id = id; // Correctly assign ID
+        if (Validator::isAlphaString(name) && Validator::isValidLength(name)) {
             this->name = name;
+        } else {
+            cout << "Invalid Name\n";
         }
-        else{
-            cout<<"Invalid Name\n";
-        }
-        if(Validator::isValidLength(password))
-        {
-            this->password=password;
-        }
-        else{
-            cout<<"Invalid Password\n";
+        if (Validator::isValidLength(password)) {
+            this->password = password;
+        } else {
+            cout << "Invalid Password\n";
         }
     }
-    //Setter
-    void setId(int id)
-    {
+
+    // Setters
+    void setId(int id) {
         this->id = id;
     }
-    void setName(string name)
-    {
-        if(Validator::isAlphaString(name) &&Validator::isValidLength(name))
-        {
+
+    void setName(const string& name) {
+        if (Validator::isAlphaString(name) && Validator::isValidLength(name)) {
             this->name = name;
-        }
-        else{
-            cout<<"Invalid Name\n";
-        }
-    }
-    void setPassword(string password)
-    {
-        if(Validator::isValidLength(password))
-        {
-            this->password=password;
-        }
-        else{
-            cout<<"Invalid Password\n";
+        } else {
+            cout << "Invalid Name\n";
         }
     }
-    //Getter
-    int getId()
-    {
-        return this->id;
+
+    void setPassword(const string& password) {
+        if (Validator::isValidLength(password)) {
+            this->password = password;
+        } else {
+            cout << "Invalid Password\n";
+        }
     }
-    string getName()
-    {
-        return this->name;
+
+    // Getters
+    int getId(){
+        return id;
     }
-    string getPassword()
-    {
-        return this->password;
+
+    string getName(){
+        return name;
     }
-    //Methods
-    virtual void Display() = 0; //Pure Virtual Method To Force Child Class To Override On Display Method
+
+    string getPassword(){
+        return password;
+    }
+
+    // Abstract Method
+    virtual void Display() = 0;
 };
 
 class Client : public Person {
@@ -119,31 +98,38 @@ private:
     double balance;
 
 public:
-    //Def Con
-    Client():Person()
-    {
-        this->balance = 0.0;
+    // Default Constructor
+    Client() : Person(){
+       this->balance = 0.0;
     }
-    //Para Con
+
+    // Parameterized Constructor
     Client(int id, string name, string password, double balance) : Person(id, name, password) {
-        this->balance=balance;
+        if (Validator::isValidbalance(balance))
+            this->balance = balance;
+        else
+            cout << "Invalid balance! Minimum is 1500.\n";
     }
-    //Setters
+
+    // Setter
     void setBalance(double balance) {
         if (Validator::isValidbalance(balance))
             this->balance = balance;
         else
             cout << "Invalid balance! Minimum is 1500.\n";
     }
-    //Getters
-    double getBalance() {
-         return balance;
+
+    // Getter
+    double getBalance()  {
+        return balance;
     }
-    //Methods
+
+    // Methods
     void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
-            cout << "Deposited: " << amount << ". New Balance: " << this->balance << endl;
+            cout << "Deposited: " << amount << ". New Balance: " << balance << endl;
+            cout<<"================================\n";
         } else {
             cout << "Invalid deposit amount!\n";
         }
@@ -153,43 +139,51 @@ public:
         if (amount > 0 && balance - amount >= 1500) {
             balance -= amount;
             cout << "Withdrawn: " << amount << ". New Balance: " << balance << endl;
+            cout<<"================================\n";
         } else {
             cout << "Invalid withdrawal amount or insufficient balance!\n";
         }
     }
 
-    void transferTo(double amount, Client &recipient) {
+    void transferTo(double amount, Client& recipient) {
         if (amount > 0 && balance - amount >= 1500) {
             balance -= amount;
             recipient.deposit(amount);
             cout << "Transferred: " << amount << " to " << recipient.getName() << ". Your New Balance: " << balance << endl;
+            cout<<"================================\n";
         } else {
             cout << "Invalid transfer amount or insufficient balance!\n";
         }
     }
 
-    void checkBalance() {
-        cout << "Current Balance: " << this->balance << endl;
+    void checkBalance()  {
+        cout << "Current Balance: " << balance << endl;
     }
 
-    void Display() {
-        cout << "Client - ";
-        cout<<"ID         ="<<this->id<<endl;
-        cout<<"Name       ="<<this->id<<endl;
-        cout<<"Password   ="<<this->id<<endl;
-        cout <<"Balance   ="<<this->balance << endl;
+    void Display()  {
+        cout << "=====Client=====  " << endl;
+        cout << "ID         = " << id << endl;
+        cout << "Name       = " << name << endl;
+        cout << "Password   = " << password << endl;
+        cout << "Balance    = " << balance << endl;
+        cout<<"\n================================\n";
     }
 };
 
-int main(){
-    Client c1(1,"Mohamed","Mohamed123",20000);
+int main() {
+    Client c1(1, "Mohamed", "Mohamed123", 20000);
     c1.Display();
     c1.deposit(500);
     c1.Display();
     c1.withdraw(1000);
     c1.Display();
-    Client c2(2,"ahmed","Ahmed246",1500);
-    c1.transferTo(9500,c2);
+
+    Client c2(2, "Ahmed", "Ahmed246", 1500);
+    c1.transferTo(9500, c2);
+
     c1.Display();
     c2.Display();
+
+    return 0;
 }
+
