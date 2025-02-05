@@ -18,6 +18,9 @@ public:
     static bool isValidLength(const string& str) {
         return str.length() >= 5 && str.length() <= 20;
     }
+    static bool isValidpassword(const string& str) {
+        return str.length() >= 8 && str.length() <= 20;
+    }
 
     static bool isValidbalance(double balance) {
         return balance >= 1500;
@@ -48,7 +51,7 @@ public:
         } else {
             cout << "Invalid Name\n";
         }
-        if (Validator::isValidLength(password)) {
+        if (Validator::isValidpassword(password)) {
             this->password = password;
         } else {
             cout << "Invalid Password\n";
@@ -69,7 +72,7 @@ public:
     }
 
     void setPassword(const string& password) {
-        if (Validator::isValidLength(password)) {
+        if (Validator::isValidpassword(password)) {
             this->password = password;
         } else {
             cout << "Invalid Password\n";
@@ -237,7 +240,7 @@ public:
 
 
 int main() {
-    Client c1(1, "Mohamed", "Mohamed123", 20000);
+    Client c1(1, "Mohamed", "mohamed12", 20000);
     c1.Display();
     c1.deposit(500);
     c1.Display();
