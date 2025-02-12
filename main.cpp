@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include"FileHandler.h"
 using namespace std;
 
 #include "Client.h"
@@ -7,22 +8,32 @@ using namespace std;
 #include "Admin.h"
 
 int main() {
-    Client c1(1, "Mohamed", "mohamed12", 20000);
-    c1.Display();
-    c1.deposit(500);
-    c1.withdraw(1000);
+ Client c1  (1, "Alimohamed" , "pass12345", 2000);
+ Employee e1(2, "OmarAhmed"  , "empPass1234", 6000);
+ Admin a1   (3, "SaraMohamed", "admin123", 8000);
 
-    Client c2(2, "Ahmed", "Ahmed246", 1500);
-    c1.transferTo(9500, c2);
-    c1.Display();
-    c2.Display();
+ if (FileHandler::saveClientToFile(c1)) {
+     cout << "Client saved successfully.\n";
+ }
+ else {
+     cout << "Failed to save client.\n";
+ }
 
-    Employee e1(3, "Mahmoud", "Mahmoud135", 6000);
-    e1.Display();
+ if (FileHandler::saveEmployeeToFile(e1)) {
+     cout << "Employee saved successfully.\n";
+ }
+ else {
+     cout << "Failed to save employee.\n";
+ }
 
-    Admin a1(4, "Mohamed", "Mohamed012", 10000);
-    a1.Display();
-    return 0;
+ if (FileHandler::saveAdminToFile(a1)) {
+     cout << "Admin saved successfully.\n";
+ }
+ else {
+     cout << "Failed to save admin.\n";
+ }
+
+ return 0;
 }
 
 
