@@ -17,4 +17,3 @@ public:
     virtual void removeAllAdmins() = 0;
 };
 #endif // DATASOURCEINTERFACE_H
-
