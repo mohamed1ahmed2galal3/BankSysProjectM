@@ -23,28 +23,28 @@ int main() {
     createFileIfNotExists("AdminLastID.txt");
 
 
-    FilesHelper::saveLast("ClientLastID.txt", 5);
-    cout << "Last Client ID: " << FilesHelper::getLast("ClientLastID.txt") << endl;
+    FileHelper::saveLast("ClientLastID.txt", 5);
+    cout << "Last Client ID: " << FileHelper::getLast("ClientLastID.txt") << endl;
 
-    FilesHelper::saveLast("EmployeeLastID.txt", 10);
-    cout << "Last Employee ID: " << FilesHelper::getLast("EmployeeLastID.txt") << endl;
+    FileHelper::saveLast("EmployeeLastID.txt", 10);
+    cout << "Last Employee ID: " << FileHelper::getLast("EmployeeLastID.txt") << endl;
 
-    FilesHelper::saveLast("AdminLastID.txt", 15);
-    cout << "Last Admin ID: " << FilesHelper::getLast("AdminLastID.txt") << endl;
-
-
-    Client c1(1, "Ali", "pass1234", 2000);
-    Employee e1(2, "Omar", "empPass", 6000);
-    Admin a1(3, "Sara", "adminPass", 10000);
-
-    FilesHelper::saveClient(c1);
-    FilesHelper::saveEmployee(e1);
-    FilesHelper::saveAdmin(a1);
+    FileHelper::saveLast("AdminLastID.txt", 15);
+    cout << "Last Admin ID: " << FileHelper::getLast("AdminLastID.txt") << endl;
 
 
-    FilesHelper::getClients();
-    FilesHelper::getEmployees();
-    FilesHelper::getAdmins();
+    Client c1(1, "Alimohamed", "pass123456", 2000);
+    Employee e1(2, "Omarahmed", "empPass123", 6000);
+    Admin a1(3, "Saramohamed", "adminPass123", 10000);
+
+    FileHelper::saveClient(c1);
+    FileHelper::saveEmployee(e1);
+    FileHelper::saveAdmin(a1);
+
+
+    FileHelper::getClients();
+    FileHelper::getEmployees();
+    FileHelper::getAdmins();
 
 
     cout << "\nStored Clients:\n";
@@ -63,9 +63,9 @@ int main() {
     }
 
 
-    FilesHelper::clearFile("Clients1.txt", "ClientLastID.txt");
-    FilesHelper::clearFile("Employee1.txt", "EmployeeLastID.txt");
-    FilesHelper::clearFile("Admin1.txt", "AdminLastID.txt");
+    FileHelper::clearFile("Clients1.txt", "ClientLastID.txt");
+    FileHelper::clearFile("Employee1.txt", "EmployeeLastID.txt");
+    FileHelper::clearFile("Admin1.txt", "AdminLastID.txt");
 
     cout << "\nAll files cleared.\n";
 

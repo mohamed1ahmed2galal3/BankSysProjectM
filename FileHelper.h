@@ -12,13 +12,14 @@
 using namespace std;
 
 
-vector<Client> clients;
-vector<Employee> employees;
-vector<Admin> admins;
+
 
 class FileHelper {
 public:
 
+    static vector<Client> clients;
+    static vector<Employee> employees;
+    static vector<Admin> admins;
     static void saveLast(string fileName, int id) {
         ofstream file(fileName);
         if (file.is_open()) {
@@ -132,5 +133,9 @@ public:
         saveLast(lastIdFile, 0);
     }
 };
+
+vector<Client> FileHelper::clients;
+vector<Employee> FileHelper::employees;
+vector<Admin> FileHelper::admins;
 
 #endif // FILESHELPER_H
