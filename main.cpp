@@ -63,11 +63,11 @@ int main() {
     }
 
 
-    FileHelper::clearFile("Clients1.txt", "ClientLastID.txt");
+    /*FileHelper::clearFile("Clients1.txt", "ClientLastID.txt");
     FileHelper::clearFile("Employee1.txt", "EmployeeLastID.txt");
     FileHelper::clearFile("Admin1.txt", "AdminLastID.txt");
 
-    cout << "\nAll files cleared.\n";
+    cout << "\nAll files cleared.\n";*/
 
     return 0;
 }
