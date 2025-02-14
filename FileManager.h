@@ -1,10 +1,10 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
-#include "DataSourceInterface.h"
+#include "DatasourceInterface.h"
 #include "FileHelper.h"
 
-class FileManager : public DataSourceInterface {
+class FileManager : public DatasourceInterface {
 public:
     void addClient(Client client) override {
         FileHelper::saveClient(client);

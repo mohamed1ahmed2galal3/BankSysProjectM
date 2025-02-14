@@ -4,6 +4,7 @@
 #include "Client.h"
 #include "Employee.h"
 #include "Admin.h"
+#include "FileManager.h"
 using namespace std;
 
 void createFileIfNotExists(const string& fileName) {
@@ -22,7 +23,6 @@ int main() {
     createFileIfNotExists("EmployeeLastID.txt");
     createFileIfNotExists("AdminLastID.txt");
 
-
     FileHelper::saveLast("ClientLastID.txt", 5);
     cout << "Last Client ID: " << FileHelper::getLast("ClientLastID.txt") << endl;
 
@@ -32,20 +32,19 @@ int main() {
     FileHelper::saveLast("AdminLastID.txt", 15);
     cout << "Last Admin ID: " << FileHelper::getLast("AdminLastID.txt") << endl;
 
+    FileManager fileManager;
 
     Client c1(1, "Alimohamed", "pass123456", 2000);
     Employee e1(2, "Omarahmed", "empPass123", 6000);
     Admin a1(3, "Saramohamed", "adminPass123", 10000);
 
-    FileHelper::saveClient(c1);
-    FileHelper::saveEmployee(e1);
-    FileHelper::saveAdmin(a1);
+    fileManager.addClient(c1);
+    fileManager.addEmployee(e1);
+    fileManager.addAdmin(a1);
 
-
-    FileHelper::getClients();
-    FileHelper::getEmployees();
-    FileHelper::getAdmins();
-
+    fileManager.getAllClients();
+    fileManager.getAllEmployees();
+    fileManager.getAllAdmins();
 
     cout << "\nStored Clients:\n";
     for (const auto& client : FileHelper::clients) {
@@ -62,12 +61,9 @@ int main() {
         admin.Display();
     }
 
-
-    /*FileHelper::clearFile("Clients1.txt", "ClientLastID.txt");
-    FileHelper::clearFile("Employee1.txt", "EmployeeLastID.txt");
-    FileHelper::clearFile("Admin1.txt", "AdminLastID.txt");
+    /*fileManager.removeAllClients();
+    fileManager.removeAllEmployees();
+    fileManager.removeAllAdmins();
 
     cout << "\nAll files cleared.\n";*/
-
-    return 0;
 }
