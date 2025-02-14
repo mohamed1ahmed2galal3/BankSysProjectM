@@ -32,10 +32,15 @@ public:
         }
     }
     void listEmployee() {
-        for (const auto& employee : employees) {
-            employee.Display();
-        }
+    if (employees.empty()) {
+        cout << "No employees available.\n";
+        return;
     }
+    for (const auto& employee : employees) {
+        employee.Display();
+    }
+}
+
     void saveEmployeesToFile() {
         ofstream file("Employee1.txt", ios::app);
         if (file.is_open()) {
