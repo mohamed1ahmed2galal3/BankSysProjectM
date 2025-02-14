@@ -37,10 +37,15 @@ public:
         return nullptr;
     }
     void listClient() {
-        for (const auto& client : clients) {
-            client.Display();
-        }
+    if (clients.empty()) {
+        cout << "No clients available.\n";
+        return;
     }
+    for (const auto& client : clients) {
+        client.Display();
+    }
+}
+
     void editClient(int id, string name, string password, double balance) {
         Client* client = searchClient(id);
         if (client) {
