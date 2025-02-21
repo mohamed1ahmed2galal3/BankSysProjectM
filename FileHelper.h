@@ -11,15 +11,8 @@
 
 using namespace std;
 
-
-
-
 class FileHelper {
 public:
-
-    static vector<Client> clients;
-    static vector<Employee> employees;
-    static vector<Admin> admins;
     static void saveLast(string fileName, int id) {
         ofstream file(fileName);
         if (file.is_open()) {
@@ -29,7 +22,6 @@ public:
             cout << "Error opening file: " << fileName << endl;
         }
     }
-
 
     static int getLast(string fileName) {
         ifstream file(fileName);
@@ -43,47 +35,52 @@ public:
         return lastId;
     }
 
-
     static void saveClient(Client c) {
+        int lastId = getLast("ClientLastID.txt");
+        c.setId(lastId + 1);
         ofstream file("Clients1.txt", ios::app);
         if (file.is_open()) {
             file << c.getId() << "#" << c.getName() << "#" << c.getPassword() << "#" << c.getBalance() << "\n";
             file.close();
+            saveLast("ClientLastID.txt", c.getId());
         } else {
             cout << "Error opening Clients1.txt" << endl;
         }
     }
 
-
     static void saveEmployee(Employee e) {
+        int lastId = getLast("EmployeeLastID.txt");
+        e.setId(lastId + 1);
         ofstream file("Employee1.txt", ios::app);
         if (file.is_open()) {
             file << e.getId() << "#" << e.getName() << "#" << e.getPassword() << "#" << e.getSalary() << "\n";
             file.close();
+            saveLast("EmployeeLastID.txt", e.getId());
         } else {
             cout << "Error opening Employee1.txt" << endl;
         }
     }
 
-
     static void saveAdmin(Admin a) {
+        int lastId = getLast("AdminLastID.txt");
+        a.setId(lastId + 1);
         ofstream file("Admin1.txt", ios::app);
         if (file.is_open()) {
             file << a.getId() << "#" << a.getName() << "#" << a.getPassword() << "#" << a.getSalary() << "\n";
             file.close();
+            saveLast("AdminLastID.txt", a.getId());
         } else {
             cout << "Error opening Admin1.txt" << endl;
         }
     }
 
-
     static void getClients() {
-        clients.clear();
+        Clients.clear();
         ifstream file("Clients1.txt");
         string line;
         if (file.is_open()) {
             while (getline(file, line)) {
-                clients.push_back(Parser::parseToClient(line));
+                Clients.push_back(Parser::parseToClient(line));
             }
             file.close();
         } else {
@@ -91,14 +88,13 @@ public:
         }
     }
 
-
     static void getEmployees() {
-        employees.clear();
+        Employees.clear();
         ifstream file("Employee1.txt");
         string line;
         if (file.is_open()) {
             while (getline(file, line)) {
-                employees.push_back(Parser::parseToEmployee(line));
+                Employees.push_back(Parser::parseToEmployee(line));
             }
             file.close();
         } else {
@@ -106,21 +102,19 @@ public:
         }
     }
 
-
     static void getAdmins() {
-        admins.clear();
+        Admins.clear();
         ifstream file("Admin1.txt");
         string line;
         if (file.is_open()) {
             while (getline(file, line)) {
-                admins.push_back(Parser::parseToAdmin(line));
+                Admins.push_back(Parser::parseToAdmin(line));
             }
             file.close();
         } else {
             cout << "Error opening Admin1.txt" << endl;
         }
     }
-
 
     static void clearFile(string fileName, string lastIdFile) {
         ofstream file(fileName, ios::trunc);
@@ -129,13 +123,10 @@ public:
         } else {
             cout << "Error clearing file: " << fileName << endl;
         }
-
         saveLast(lastIdFile, 0);
     }
 };
 
-vector<Client> FileHelper::clients;
-vector<Employee> FileHelper::employees;
-vector<Admin> FileHelper::admins;
+
 
 #endif // FILESHELPER_H

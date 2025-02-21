@@ -9,11 +9,10 @@
 class Employee : public Person {
 protected:
     double salary;
-    vector<Client> clients;
 public:
     Employee() : Person(), salary(0.0) {}
-    Employee(int id, const string& name, const string& password, double salary)
-        : Person(id, name, password) {
+    Employee(const string& name, const string& password, double salary)
+        : Person(name, password) {
         setSalary(salary);
     }
     void setSalary(double salary) {
@@ -26,23 +25,27 @@ public:
     double getSalary() const { return salary; }
 
     void addClient(Client& client) {
-        clients.push_back(client);
+        Clients.push_back(client);
+        cout << "Client " << client.getName() << " added successfully.\n";
     }
     Client* searchClient(int id) {
-        for (auto& client : clients) {
+        for (auto& client : Clients) {
             if (client.getId() == id) {
                 return &client;
             }
         }
+        cout << "Client with ID " << id << " not found.\n";
         return nullptr;
     }
     void listClient() {
-    if (clients.empty()) {
+    if (Clients.empty()) {
         cout << "No clients available.\n";
         return;
     }
-    for (const auto& client : clients) {
+    cout << "========= Client List =========\n";
+    for (const auto& client : Clients) {
         client.Display();
+        cout<<"-------------------------\n";
     }
 }
 
@@ -52,21 +55,23 @@ public:
             client->setName(name);
             client->setPassword(password);
             client->setBalance(balance);
+            cout << "Client " << id << " updated successfully.\n";
+            cout << "Client " << id << " updated successfully.\n";
         } else {
             cout << "Client not found!" << endl;
         }
     }
-    void saveClientsToFile() {
+    /*void saveClientsToFile() {
         ofstream file("Clients1.txt", ios::app);
         if (file.is_open()) {
-            for (const auto& client : clients) {
+            for (const auto& client : Clients) {
                 file << client.getId() << "#" << client.getName() << "#" << client.getPassword() << "#" << client.getBalance() << "\n";
             }
             file.close();
         } else {
             cout << "Error opening Clients1.txt file!" << endl;
         }
-    }
+    }*/
     void Display() const override {
         cout << "===== Employee =====\n";
         cout << "ID         = " << id << "\n";
@@ -76,4 +81,7 @@ public:
         cout << "===================\n";
     }
 };
+
+static vector<Employee> Employees;
+static vector<Employee> ::iterator emit;
 #endif // EMPLOYEE_H

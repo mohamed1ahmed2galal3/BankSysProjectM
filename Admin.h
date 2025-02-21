@@ -3,15 +3,14 @@
 #include"Employee.h"
 
 class Admin : public Employee {
-private:
-    vector<Employee> employees;
 public:
     Admin() {}
-    Admin(int id, const string& name, const string& password, double salary)
-        : Employee(id, name, password, salary) {}
+    Admin(const string& name, const string& password, double salary)
+        : Employee(name, password, salary) {}
 
     void addEmployee(Employee& employee) {
         employees.push_back(employee);
+        cout << "Employee " << employee.getName() << " added successfully.\n";
     }
     Employee* searchEmployee(int id) {
         for (auto& employee : employees) {
@@ -19,6 +18,7 @@ public:
                 return &employee;
             }
         }
+        cout << "Employee with ID " << id << " not found.\n";
         return nullptr;
     }
     void editEmployee(int id, string name, string password, double salary) {
@@ -27,6 +27,7 @@ public:
             employee->setName(name);
             employee->setPassword(password);
             employee->setSalary(salary);
+            cout << "Employee " << id << " updated successfully.\n";
         } else {
             cout << "Employee not found!" << endl;
         }
@@ -36,22 +37,24 @@ public:
         cout << "No employees available.\n";
         return;
     }
-    for (const auto& employee : employees) {
+    cout << "========= Employee List =========\n";
+    for (const auto& employee : Employees) {
         employee.Display();
+        cout<<"-------------------------\n";
     }
 }
 
-    void saveEmployeesToFile() {
+    /*void saveEmployeesToFile() {
         ofstream file("Employee1.txt", ios::app);
         if (file.is_open()) {
-            for (const auto& employee : employees) {
+            for (const auto& employee : Employees) {
                 file << employee.getId() << "#" << employee.getName() << "#" << employee.getPassword() << "#" << employee.getSalary() << "\n";
             }
             file.close();
         } else {
             cout << "Error opening Employee1.txt file!" << endl;
         }
-    }
+    }*/
     void Display() const override {
         cout << "===== Admin =====\n";
         cout << "ID         = " << id << "\n";
@@ -61,5 +64,7 @@ public:
         cout << "================\n";
     }
 };
+static vector<Admin> Admins;
+static vector<Admin> ::iterator adit;
 
 #endif // ADMIN_H

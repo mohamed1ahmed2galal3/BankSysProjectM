@@ -23,43 +23,29 @@ int main() {
     createFileIfNotExists("EmployeeLastID.txt");
     createFileIfNotExists("AdminLastID.txt");
 
-    FileHelper::saveLast("ClientLastID.txt", 5);
-    cout << "Last Client ID: " << FileHelper::getLast("ClientLastID.txt") << endl;
-
-    FileHelper::saveLast("EmployeeLastID.txt", 10);
-    cout << "Last Employee ID: " << FileHelper::getLast("EmployeeLastID.txt") << endl;
-
-    FileHelper::saveLast("AdminLastID.txt", 15);
-    cout << "Last Admin ID: " << FileHelper::getLast("AdminLastID.txt") << endl;
-
     FileManager fileManager;
+    Admin admin1("Omar", "admin789", 12000.0);
+    Employee emp1("Ahmed", "emp456", 7000.0);
 
-    Client c1(1, "Alimohamed", "pass123456", 2000);
-    Employee e1(2, "Omarahmed", "empPass123", 6000);
-    Admin a1(3, "Saramohamed", "adminPass123", 10000);
+    Client client1("Ali", "pass123", 5000.0);
+    fileManager.addClient(client1);
+    cout << " Client Added!\n";
 
-    fileManager.addClient(c1);
-    fileManager.addEmployee(e1);
-    fileManager.addAdmin(a1);
 
-    fileManager.getAllClients();
-    fileManager.getAllEmployees();
-    fileManager.getAllAdmins();
+    fileManager.addEmployee(emp1);
+    cout << " Employee Added!\n";
 
-    cout << "\nStored Clients:\n";
-    for (const auto& client : FileHelper::clients) {
-        client.Display();
-    }
+    fileManager.addAdmin(admin1);
+    cout << " Admin Added!\n";
 
-    cout << "\nStored Employees:\n";
-    for (const auto& employee : FileHelper::employees) {
-        employee.Display();
-    }
+    fileManager.getAllData();
+    cout << "\n Data Loaded from Files!\n";
 
-    cout << "\nStored Admins:\n";
-    for (const auto& admin : FileHelper::admins) {
-        admin.Display();
-    }
+    cout << "\n Clients List:\n";
+    emp1.listClient();
+
+    cout << "\n Employees List:\n";
+    admin1.listEmployee();
 
     /*fileManager.removeAllClients();
     fileManager.removeAllEmployees();

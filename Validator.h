@@ -11,7 +11,7 @@ class Validator {
 public:
     static bool isAlphaString(const string& str) {
         for (char c : str) {
-            if (!isalpha(static_cast<unsigned char>(c))) {
+            if (!isalpha(static_cast<unsigned char>(c)) && c != ' ') {
                 return false;
             }
         }
