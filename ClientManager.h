@@ -3,6 +3,7 @@
 
 #include "Client.h"
 #include "FileManager.h"
+#include "Animations.h"
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -58,6 +59,7 @@ public:
                 double amount;
                 cout << "Enter amount to deposit: ";
                 cin >> amount;
+                Animations::loadingDots("Processing transaction", 3, 180);
                 client->deposit(amount);
                 FileManager::getInstance().updateClients();
                 break;
@@ -66,6 +68,7 @@ public:
                 double amount;
                 cout << "Enter amount to withdraw: ";
                 cin >> amount;
+                Animations::loadingDots("Processing transaction", 3, 180);
                 client->withdraw(amount);
                 FileManager::getInstance().updateClients();
                 break;
@@ -91,6 +94,7 @@ public:
                 }
                 cout << "Enter amount to transfer: ";
                 cin >> amount;
+                Animations::loadingDots("Processing transfer", 3, 180);
                 client->transferTo(amount, *recipient);
                 FileManager::getInstance().updateClients();
                 break;

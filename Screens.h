@@ -5,29 +5,35 @@
 #include "EmployeeManager.h"
 #include "AdminManager.h"
 #include "FileManager.h"
+#include "Animations.h"
 #include <iostream>
 #include <limits>
-#include <thread>
-#include <chrono>
+#include <vector>
 using namespace std;
 
 class Screens {
 public:
     static void bankName() {
-        cout << R"(
-   ____ ____  ____   _   _ ____    ____   _    _   _ _  __
-  / ___|  _ \|  _ \ | | | / ___|  | __ ) / \  | \ | | |/ /
- | |   | |_) | |_) || | | \___ \  |  _ \/ _ \ |  \| | ' /
- | |___|  __/|  __/ | |_| |___) | | |_) / ___ \| |\  | . \
-  \____|_|   |_|     \___/|____/  |____/_/   \_\_| \_|_|\_\
-)" << endl;
+        vector<string> art = {
+            "   ____ ____  ____   _   _ ____    ____   _    _   _ _  __",
+            "  / ___|  _ \\|  _ \\ | | | / ___|  | __ ) / \\  | \\ | | |/ /",
+            " | |   | |_) | |_) || | | \\___ \\  |  _ \\/ _ \\ |  \\| | ' / ",
+            " | |___|  __/|  __/ | |_| |___) | | |_) / ___ \\| |\\  | . \\ ",
+            "  \\____|_|   |_|     \\___/|____/  |____/_/   \\_\\_| \\_|_|\\_\\"
+        };
+        cout << "\n";
+        for (const auto& line : art) {
+            Animations::revealLine(line, 60);
+        }
+        cout << "\n";
     }
 
     static void welcome() {
-        cout << "=======================================================\n";
-        cout << "          Welcome to CPP Bank Management System        \n";
-        cout << "     Your trust, our priority - Banking made simple    \n";
-        cout << "=======================================================\n\n";
+        Animations::typeEffect("=======================================================", 4);
+        Animations::typeEffect("          Welcome to CPP Bank Management System        ", 8);
+        Animations::typeEffect("     Your trust, our priority - Banking made simple    ", 8);
+        Animations::typeEffect("=======================================================", 4);
+        cout << "\n";
     }
 
     static void loginOptions() {
@@ -56,7 +62,8 @@ public:
     }
 
     static void logout() {
-        cout << "\nYou have been logged out. See you soon!\n";
+        Animations::loadingDots("Returning to main menu", 3, 150);
+        cout << "You have been logged out. See you soon!\n";
     }
 
     static void loginScreen(int c) {
@@ -70,6 +77,7 @@ public:
                 cin >> id;
                 cout << "Enter Password: ";
                 cin >> password;
+                Animations::loadingDots("Authenticating", 3, 200);
                 Client* client = ClientManager::login(id, password);
                 if (client) {
                     cout << "\nLogin successful! Welcome, " << client->getName() << "!\n";
@@ -86,6 +94,7 @@ public:
                 cin >> id;
                 cout << "Enter Password: ";
                 cin >> password;
+                Animations::loadingDots("Authenticating", 3, 200);
                 Employee* employee = EmployeeManager::login(id, password);
                 if (employee) {
                     cout << "\nLogin successful! Welcome, " << employee->getName() << "!\n";
@@ -102,6 +111,7 @@ public:
                 cin >> id;
                 cout << "Enter Password: ";
                 cin >> password;
+                Animations::loadingDots("Authenticating", 3, 200);
                 Admin* admin = AdminManager::login(id, password);
                 if (admin) {
                     cout << "\nLogin successful! Welcome, " << admin->getName() << "!\n";
@@ -134,6 +144,7 @@ public:
         bankName();
         welcome();
 
+        Animations::loadingDots("Loading system data", 4, 200);
         FileManager::getInstance().getAllClients();
         FileManager::getInstance().getAllEmployees();
         FileManager::getInstance().getAllAdmins();
