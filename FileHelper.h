@@ -19,7 +19,7 @@ public:
             file << id;
             file.close();
         } else {
-            cout << "Error opening file: " << fileName << endl;
+            cout << "Error: Unable to open " << fileName << endl;
         }
     }
 
@@ -30,47 +30,94 @@ public:
             file >> lastId;
             file.close();
         } else {
-            cout << "Error opening file: " << fileName << endl;
+            cout << "Error: Unable to open " << fileName << endl;
         }
         return lastId;
     }
 
-    static void saveClient(Client c) {
+    static void saveClient(const Client& c) {
         int lastId = getLast("ClientLastID.txt");
-        c.setId(lastId + 1);
+        Client newClient = c;
+        newClient.setId(lastId + 1);
+
         ofstream file("Clients1.txt", ios::app);
         if (file.is_open()) {
-            file << c.getId() << "#" << c.getName() << "#" << c.getPassword() << "#" << c.getBalance() << "\n";
+            file << newClient.getId() << "#" << newClient.getName() << "#"
+                 << newClient.getPassword() << "#" << newClient.getBalance() << "\n";
+            file.close();
+            saveLast("ClientLastID.txt", newClient.getId());
+        } else {
+            cout << "Error: Unable to open Clients1.txt" << endl;
+        }
+    }
+
+    static void saveEmployee(const Employee& e) {
+        int lastId = getLast("EmployeeLastID.txt");
+        Employee newEmployee = e;
+        newEmployee.setId(lastId + 1);
+
+        ofstream file("Employee1.txt", ios::app);
+        if (file.is_open()) {
+            file << newEmployee.getId() << "#" << newEmployee.getName() << "#"
+                 << newEmployee.getPassword() << "#" << newEmployee.getSalary() << "\n";
+            file.close();
+            saveLast("EmployeeLastID.txt", newEmployee.getId());
+        } else {
+            cout << "Error: Unable to open Employee1.txt" << endl;
+        }
+    }
+
+    static void saveAdmin(const Admin& a) {
+        int lastId = getLast("AdminLastID.txt");
+        Admin newAdmin = a;
+        newAdmin.setId(lastId + 1);
+
+        ofstream file("Admin1.txt", ios::app);
+        if (file.is_open()) {
+            file << newAdmin.getId() << "#" << newAdmin.getName() << "#"
+                 << newAdmin.getPassword() << "#" << newAdmin.getSalary() << "\n";
+            file.close();
+            saveLast("AdminLastID.txt", newAdmin.getId());
+        } else {
+            cout << "Error: Unable to open Admin1.txt" << endl;
+        }
+    }
+
+    // Save a record that already has its final ID (used when rewriting
+    // the file from the in-memory vector, e.g. after an edit/deposit).
+    static void saveClientKeepId(const Client& c) {
+        ofstream file("Clients1.txt", ios::app);
+        if (file.is_open()) {
+            file << c.getId() << "#" << c.getName() << "#"
+                 << c.getPassword() << "#" << c.getBalance() << "\n";
             file.close();
             saveLast("ClientLastID.txt", c.getId());
         } else {
-            cout << "Error opening Clients1.txt" << endl;
+            cout << "Error: Unable to open Clients1.txt" << endl;
         }
     }
 
-    static void saveEmployee(Employee e) {
-        int lastId = getLast("EmployeeLastID.txt");
-        e.setId(lastId + 1);
+    static void saveEmployeeKeepId(const Employee& e) {
         ofstream file("Employee1.txt", ios::app);
         if (file.is_open()) {
-            file << e.getId() << "#" << e.getName() << "#" << e.getPassword() << "#" << e.getSalary() << "\n";
+            file << e.getId() << "#" << e.getName() << "#"
+                 << e.getPassword() << "#" << e.getSalary() << "\n";
             file.close();
             saveLast("EmployeeLastID.txt", e.getId());
         } else {
-            cout << "Error opening Employee1.txt" << endl;
+            cout << "Error: Unable to open Employee1.txt" << endl;
         }
     }
 
-    static void saveAdmin(Admin a) {
-        int lastId = getLast("AdminLastID.txt");
-        a.setId(lastId + 1);
+    static void saveAdminKeepId(const Admin& a) {
         ofstream file("Admin1.txt", ios::app);
         if (file.is_open()) {
-            file << a.getId() << "#" << a.getName() << "#" << a.getPassword() << "#" << a.getSalary() << "\n";
+            file << a.getId() << "#" << a.getName() << "#"
+                 << a.getPassword() << "#" << a.getSalary() << "\n";
             file.close();
             saveLast("AdminLastID.txt", a.getId());
         } else {
-            cout << "Error opening Admin1.txt" << endl;
+            cout << "Error: Unable to open Admin1.txt" << endl;
         }
     }
 
@@ -78,13 +125,16 @@ public:
         Clients.clear();
         ifstream file("Clients1.txt");
         string line;
+
         if (file.is_open()) {
             while (getline(file, line)) {
-                Clients.push_back(Parser::parseToClient(line));
+                if (!line.empty()) {
+                    Clients.push_back(Parser::parseToClient(line));
+                }
             }
             file.close();
         } else {
-            cout << "Error opening Clients1.txt" << endl;
+            cout << "Error: Unable to open Clients1.txt" << endl;
         }
     }
 
@@ -92,13 +142,16 @@ public:
         Employees.clear();
         ifstream file("Employee1.txt");
         string line;
+
         if (file.is_open()) {
             while (getline(file, line)) {
-                Employees.push_back(Parser::parseToEmployee(line));
+                if (!line.empty()) {
+                    Employees.push_back(Parser::parseToEmployee(line));
+                }
             }
             file.close();
         } else {
-            cout << "Error opening Employee1.txt" << endl;
+            cout << "Error: Unable to open Employee1.txt" << endl;
         }
     }
 
@@ -106,13 +159,16 @@ public:
         Admins.clear();
         ifstream file("Admin1.txt");
         string line;
+
         if (file.is_open()) {
             while (getline(file, line)) {
-                Admins.push_back(Parser::parseToAdmin(line));
+                if (!line.empty()) {
+                    Admins.push_back(Parser::parseToAdmin(line));
+                }
             }
             file.close();
         } else {
-            cout << "Error opening Admin1.txt" << endl;
+            cout << "Error: Unable to open Admin1.txt" << endl;
         }
     }
 
@@ -126,7 +182,5 @@ public:
         saveLast(lastIdFile, 0);
     }
 };
-
-
 
 #endif // FILESHELPER_H

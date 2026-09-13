@@ -11,7 +11,7 @@ protected:
     string password;
 public:
     Person() : id(0), name(""), password("") {}
-    Person(const string& name, const string& password) {
+    Person(const string& name, const string& password) : id(-1) {
         setName(name);
         setPassword(password);
     }
@@ -36,6 +36,7 @@ public:
     string getName() const { return name; }
     string getPassword() const { return password; }
     virtual void Display() const = 0;
+    virtual ~Person() {}
 };
 
 #endif // PERSON_H

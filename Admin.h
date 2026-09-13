@@ -1,6 +1,7 @@
 #ifndef ADMIN_H
 #define ADMIN_H
-#include"Employee.h"
+
+#include "Employee.h"
 
 class Admin : public Employee {
 public:
@@ -9,18 +10,19 @@ public:
         : Employee(name, password, salary) {}
 
     void addEmployee(Employee& employee) {
-        employees.push_back(employee);
+        Employees.push_back(employee);
         cout << "Employee " << employee.getName() << " added successfully.\n";
     }
+
     Employee* searchEmployee(int id) {
-        for (auto& employee : employees) {
+        for (auto& employee : Employees) {
             if (employee.getId() == id) {
                 return &employee;
             }
         }
-        cout << "Employee with ID " << id << " not found.\n";
         return nullptr;
     }
+
     void editEmployee(int id, string name, string password, double salary) {
         Employee* employee = searchEmployee(id);
         if (employee) {
@@ -32,29 +34,19 @@ public:
             cout << "Employee not found!" << endl;
         }
     }
-    void listEmployee() {
-    if (employees.empty()) {
-        cout << "No employees available.\n";
-        return;
-    }
-    cout << "========= Employee List =========\n";
-    for (const auto& employee : Employees) {
-        employee.Display();
-        cout<<"-------------------------\n";
-    }
-}
 
-    /*void saveEmployeesToFile() {
-        ofstream file("Employee1.txt", ios::app);
-        if (file.is_open()) {
-            for (const auto& employee : Employees) {
-                file << employee.getId() << "#" << employee.getName() << "#" << employee.getPassword() << "#" << employee.getSalary() << "\n";
-            }
-            file.close();
-        } else {
-            cout << "Error opening Employee1.txt file!" << endl;
+    void listEmployee() {
+        if (Employees.empty()) {
+            cout << "No employees available.\n";
+            return;
         }
-    }*/
+        cout << "========= Employee List =========\n";
+        for (const auto& employee : Employees) {
+            employee.Display();
+            cout << "-------------------------\n";
+        }
+    }
+
     void Display() const override {
         cout << "===== Admin =====\n";
         cout << "ID         = " << id << "\n";

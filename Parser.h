@@ -6,6 +6,7 @@
 #include "Admin.h"
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
@@ -28,8 +29,12 @@ public:
             string name = tokens[1];
             string password = tokens[2];
             double balance = stod(tokens[3]);
-            return Client(id, name, password, balance);
+
+            Client client(name, password, balance);
+            client.setId(id);
+            return client;
         }
+        cout << "Warning: Invalid client data format: " << line << endl;
         return Client();
     }
 
@@ -40,8 +45,12 @@ public:
             string name = tokens[1];
             string password = tokens[2];
             double salary = stod(tokens[3]);
-            return Employee(id, name, password, salary);
+
+            Employee employee(name, password, salary);
+            employee.setId(id);
+            return employee;
         }
+        cout << "Warning: Invalid employee data format: " << line << endl;
         return Employee();
     }
 
@@ -52,8 +61,12 @@ public:
             string name = tokens[1];
             string password = tokens[2];
             double salary = stod(tokens[3]);
-            return Admin(id, name, password, salary);
+
+            Admin admin(name, password, salary);
+            admin.setId(id);
+            return admin;
         }
+        cout << "Warning: Invalid admin data format: " << line << endl;
         return Admin();
     }
 };

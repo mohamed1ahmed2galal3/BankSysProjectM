@@ -15,5 +15,6 @@ public:
     virtual void removeAllClients() = 0;
     virtual void removeAllEmployees() = 0;
     virtual void removeAllAdmins() = 0;
+    virtual ~DatasourceInterface() {}
 };
 #endif // DATASOURCEINTERFACE_H

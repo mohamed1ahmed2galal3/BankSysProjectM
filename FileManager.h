@@ -5,26 +5,33 @@
 #include "FileHelper.h"
 
 class FileManager : public DatasourceInterface {
+private:
+    FileManager() {}
+
 public:
+    // Singleton accessor: the interface methods are virtual overrides,
+    // so they must be called through an instance (not as static methods).
+    static FileManager& getInstance() {
+        static FileManager instance;
+        return instance;
+    }
+
     void addClient(Client client) override {
         int newId = FileHelper::getLast("ClientLastID.txt") + 1;
         client.setId(newId);
         FileHelper::saveClient(client);
-        FileHelper::saveLast("ClientLastID.txt", newId);
     }
 
     void addEmployee(Employee employee) override {
         int newId = FileHelper::getLast("EmployeeLastID.txt") + 1;
         employee.setId(newId);
         FileHelper::saveEmployee(employee);
-        FileHelper::saveLast("EmployeeLastID.txt", newId);
     }
 
     void addAdmin(Admin admin) override {
         int newId = FileHelper::getLast("AdminLastID.txt") + 1;
         admin.setId(newId);
         FileHelper::saveAdmin(admin);
-        FileHelper::saveLast("AdminLastID.txt", newId);
     }
 
     void getAllClients() override {
@@ -51,30 +58,45 @@ public:
         FileHelper::clearFile("Admin1.txt", "AdminLastID.txt");
     }
 
-    static void getAllData()
-    {
+    // Loads clients/employees/admins from files and prints them all.
+    void getAllData() {
         getAllClients();
         getAllEmployees();
         getAllAdmins();
+
+        cout << "\n--- Clients ---\n";
+        if (Clients.empty()) cout << "No clients available.\n";
+        for (const auto& c : Clients) { c.Display(); }
+
+        cout << "\n--- Employees ---\n";
+        if (Employees.empty()) cout << "No employees available.\n";
+        for (const auto& e : Employees) { e.Display(); }
+
+        cout << "\n--- Admins ---\n";
+        if (Admins.empty()) cout << "No admins available.\n";
+        for (const auto& a : Admins) { a.Display(); }
     }
-    static void updateClients() {
+
+    // Rewrites the on-disk file so it matches the current in-memory vector.
+    // Use after editing/depositing/withdrawing so changes persist.
+    void updateClients() {
         removeAllClients();
         for (auto& client : Clients) {
-            addClient(client);
+            FileHelper::saveClientKeepId(client);
         }
     }
 
-    static void updateEmployees() {
+    void updateEmployees() {
         removeAllEmployees();
         for (auto& employee : Employees) {
-            addEmployee(employee);
+            FileHelper::saveEmployeeKeepId(employee);
         }
     }
 
-    static void updateAdmins() {
+    void updateAdmins() {
         removeAllAdmins();
         for (auto& admin : Admins) {
-            addAdmin(admin);
+            FileHelper::saveAdminKeepId(admin);
         }
     }
 };
